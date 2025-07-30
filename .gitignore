@@ -1,0 +1,20 @@
+# environment variables
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# dependencies
+/services/*/node_modules
+
+# python
+__pycache__/
+*.egg-info/
+*.egg
+dist/
+build/
+venv/
+
+# react
+/services/*/web/build

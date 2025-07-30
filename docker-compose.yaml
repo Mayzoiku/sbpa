@@ -1,0 +1,43 @@
+services:
+  walletdb:
+    image: mysql:8.0
+    env_file:
+      - ${APP_HOME}/services/walletdb/.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ${APP_HOME}/services/walletdb/data:/var/lib/mysql
+      - ${APP_HOME}/services/walletdb/init.d/:/docker-entrypoint-initdb.d/
+    restart: always
+
+  wallet:
+    build: ${APP_HOME}/services/wallet
+    env_file:
+      - ${APP_HOME}/services/wallet/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - walletdb
+    restart: always
+
+  prediction:
+    build: ${APP_HOME}/services/prediction
+    env_file:
+      - ${APP_HOME}/services/prediction/.env
+    ports:
+      - "5001:5000"
+    depends_on:
+      - walletdb
+    restart: always
+
+  web:
+    build: ${APP_HOME}/services/web
+    env_file:
+      - ${APP_HOME}/services/web/.env
+    ports:
+      - "80:80"
+    volumes:
+      - ${APP_HOME}/services/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - wallet
+    restart: always
