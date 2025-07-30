@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import walletRouter from "./routes/wallet.js";
+import chatRouter from "./routes/chat.js";
 import cors from "cors";
 
 // Load environment variables
@@ -23,6 +24,9 @@ app.use(cors());
 
 // Wallet routes
 app.use("/wallets", walletRouter);
+
+// Chat routes
+app.use("/chat", chatRouter);
 
 // Start server
 app.listen(port, () => {

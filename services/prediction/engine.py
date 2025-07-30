@@ -4,8 +4,11 @@ import os
 import pymysql
 from dotenv import load_dotenv
 from sklearn.linear_model import LinearRegression
+from openai import OpenAI
 
 load_dotenv()
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 def get_db_connection():
     return pymysql.connect(
@@ -148,6 +151,9 @@ def predict_with_insights(user_id, model_path='spba.pkl'):
         else:
             trend = "steady"
             suggestion = f"Your {category} expenses are stable. Keep budgeting wisely."
+            
+        prompt = generate_prompt(category, predicted, avg, diff, trend)
+        suggestion = get_ai_suggestion(prompt)
 
         results.append({
             'category': category,
@@ -160,8 +166,36 @@ def predict_with_insights(user_id, model_path='spba.pkl'):
 
     return results
 
+def generate_prompt(category, predicted, avg, diff, trend):
+    return (
+        f"You are a smart financial assistant.\n"
+        f"Category: {category}\n"
+        f"Predicted spending next month: GHS {predicted}\n"
+        f"Historical average: GHS {avg}\n"
+        f"Difference: GHS {diff} ({'higher' if diff > 0 else 'lower'})\n"
+        f"Trend: {trend}\n\n"
+        f"Provide a short, clear financial insight or suggestion based on this data."
+    )
+
+def get_ai_suggestion(prompt):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful budgeting assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=80,
+            temperature=0.7
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"(AI suggestion error: {e})"
+
 if __name__ == '__main__':
     user_id = 101
     trx_df = load_debit_transactions(user_id)
     train_df = prepare_training_data(trx_df)
-    train_model(train_df)
+    # train_model(train_df)
+    
+    predict_with_insights(user_id)
