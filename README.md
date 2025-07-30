@@ -53,6 +53,7 @@ Wallet --|REST| Prediction
 Prediction --|SQL| WalletDB
 ```
 
+
 ---
 
 ## Service Breakdown
