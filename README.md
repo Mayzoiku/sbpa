@@ -41,16 +41,16 @@ SPBA is composed of four main services, each running independently (preferably v
 ### System Architecture Diagram
 
 ```mermaid
-graph TD;
-    Web[Web Frontend]
-    Wallet[Wallet API]
-    Prediction[Prediction Service]
-    WalletDB[(MySQL WalletDB)]
+graph TD
+Web[Web Frontend]
+Wallet[Wallet API]
+Prediction[Prediction Service]
+WalletDB[(MySQL WalletDB)]
 
-    Web --|REST| Wallet
-    Wallet --|SQL| WalletDB
-    Wallet --|REST| Prediction
-    Prediction --|SQL| WalletDB
+Web --|REST| Wallet
+Wallet --|SQL| WalletDB
+Wallet --|REST| Prediction
+Prediction --|SQL| WalletDB
 ```
 
 ---
