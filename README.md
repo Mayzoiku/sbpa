@@ -42,15 +42,15 @@ SPBA is composed of four main services, each running independently (preferably v
 
 ```mermaid
 graph TD;
-  Web[Web Frontend]
-  Wallet[Wallet API (Node.js)]
-  Prediction[Prediction Service (Python/Flask)]
-  WalletDB[(MySQL WalletDB)]
+    Web[Web Frontend]
+    Wallet[Wallet API]
+    Prediction[Prediction Service]
+    WalletDB[(MySQL WalletDB)]
 
-  Web --REST--> Wallet
-  Wallet --SQL--> WalletDB
-  Wallet --REST--> Prediction
-  Prediction --SQL--> WalletDB
+    Web --|REST| Wallet
+    Wallet --|SQL| WalletDB
+    Wallet --|REST| Prediction
+    Prediction --|SQL| WalletDB
 ```
 
 ---
