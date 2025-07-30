@@ -155,9 +155,9 @@ git clone <your-repo-url>
 cd spba
 docker-compose up --build
 ```
-- Access frontend at [http://localhost:3000](http://localhost:3000)
-- API at [http://localhost:3001](http://localhost:3001)
-- Prediction at [http://localhost:5000](http://localhost:5000)
+- Access frontend at [http://localhost](http://localhost)
+- API at [http://localhost/api](http://localhost/api)
+- Prediction at [http://localhost/ai/prediction](http://localhost/ai/prediction)
 
 ### Manual Service Startup
 - See each service's README or docs for standalone dev mode
